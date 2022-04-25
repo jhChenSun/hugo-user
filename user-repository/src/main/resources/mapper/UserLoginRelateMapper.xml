@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 用户登录表   -->
+<mapper namespace="cn.hugo.us.repository.dao.UserLoginRelateDao">
+    <resultMap id="BaseResultMap" type="cn.hugo.us.repository.entity.UserLoginRelate">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="relate_id" jdbcType="BIGINT" property="relateId"/>
+        <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+    </resultMap>
+    <sql id="Base_Column">
+        relate_id,user_id
+    </sql>
+    <select id="selectOne" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select <include refid="Base_Column" /> from d_login_relate
+        where user_id = #{userId,jdbcType=BIGINT}
+    </select>
+    <update id="updateOne" parameterType="cn.hugo.us.repository.entity.UserLoginRelate">
+		update d_login_relate set
+		user_id = #{userName,jdbcType=BIGINT},
+		modify_time = #{userPasswd,jdbcType=TIMESTAMP},
+	    where relate_id = #{relateId,jdbcType=BIGINT}
+	</update>
+    <insert id="insert" parameterType="cn.hugo.us.repository.entity.UserLoginRelate" useGeneratedKeys="true" keyProperty="id">
+        insert into d_login_relate (relate_id,user_id,create_time,modify_time) values (
+        #{relateId,jdbcType=BIGINT},
+        #{userId,jdbcType=BIGINT},
+        #{createTime,jdbcType=TIMESTAMP},
+        #{modifyTime,jdbcType=TIMESTAMP})
+    </insert>
+</mapper>

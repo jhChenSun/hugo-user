@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 用户登录表   -->
+<mapper namespace="cn.hugo.us.repository.mapper.UserLoginMapper">
+    <resultMap id="BaseResultMap" type="cn.hugo.us.repository.entity.UserLogin">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="login_key" jdbcType="VARCHAR" property="loginKey"/>
+        <result column="login_type" jdbcType="CHAR" property="loginType" javaType="cn.hugo.us.repository.enums.E_LOGIN_TYPE" typeHandler="cn.cskj.hugo.base.dao.com.EnumCommonHandler"/>
+        <result column="register_date" jdbcType="VARCHAR" property="registerDate"/>
+        <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="data_sign" jdbcType="VARCHAR" property="dataSign"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+    </resultMap>
+    <sql id="Base_Column">
+        login_key,login_type,register_date,user_id,data_sign
+	</sql>
+    <select id="selectOne" parameterType="cn.hugo.us.repository.entity.UserLogin" resultMap="BaseResultMap">
+        select <include refid="Base_Column" /> from d_login_verify
+        where login_key = #{loginKey,jdbcType=VARCHAR} and login_type = #{loginType,jdbcType=CHAR,javaType=cn.hugo.us.repository.enums.E_LOGIN_TYPE,typeHandler=cn.cskj.hugo.base.dao.com.EnumCommonHandler}
+    </select>
+    <insert id="insert" parameterType="cn.hugo.us.repository.entity.UserLogin" useGeneratedKeys="true" keyProperty="id">
+        insert into d_login_verify(login_key,login_type,register_date,user_id,data_sign,create_time,modify_time) values (
+        #{loginKey,jdbcType=VARCHAR},
+        #{loginType,jdbcType=VARCHAR,javaType=cn.hugo.us.repository.enums.E_LOGIN_TYPE,typeHandler=cn.cskj.hugo.base.dao.com.EnumCommonHandler},
+        #{registerDate,jdbcType=VARCHAR},
+        #{userId,jdbcType=BIGINT},
+        #{dataSign,jdbcType=VARCHAR},
+        #{createTime,jdbcType=TIMESTAMP},
+        #{modifyTime,jdbcType=TIMESTAMP})
+    </insert>
+</mapper>

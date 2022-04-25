@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 用户信息表   -->
+<mapper namespace="cn.hugo.us.repository.mapper.UserInfoMapper">
+    <resultMap id="BaseResultMap" type="cn.hugo.us.repository.entity.UserInfo">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
+        <result column="user_sex" jdbcType="CHAR" property="userSex"/>
+        <result column="register_date" jdbcType="VARCHAR" property="registerDate"/>
+        <result column="gms_code" jdbcType="VARCHAR" property="gmsCode"/>
+        <result column="phone_no" jdbcType="VARCHAR" property="phoneNo"/>
+        <result column="email_addr" jdbcType="VARCHAR" property="emailAddress"/>
+        <result column="pass_wd" jdbcType="VARCHAR" property="userPasswd"/>
+        <result column="wrong_times" jdbcType="INTEGER" property="wrongTimes"/>
+        <result column="user_state" jdbcType="INTEGER" property="userState" javaType="cn.hugo.us.repository.enums.E_USER_STATE" typeHandler="cn.cskj.hugo.base.dao.com.EnumCommonHandler"/>
+        <result column="sys_lang" jdbcType="VARCHAR" property="sysLang"/>
+        <result column="data_sign" jdbcType="VARCHAR" property="dataSign"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+    </resultMap>
+    <sql id="Base_Column">
+        user_id,user_name,nick_name,user_sex,register_date,gms_code,phone_no,email_addr,pass_wd,
+        wrong_times,user_state,sys_lang
+    </sql>
+    <select id="selectOne" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select <include refid="Base_Column" /> from d_user_info
+        where user_id = #{userId,jdbcType=BIGINT}
+    </select>
+    <update id="updateOne" parameterType="cn.hugo.us.repository.entity.UserInfo">
+		update d_user_info set
+		user_name = #{userName,jdbcType=VARCHAR},
+		nick_name = #{nickName,jdbcType=VARCHAR},
+		user_sex = #{userSex,jdbcType=CHAR},
+		register_date = #{registerDate,jdbcType=VARCHAR},
+		gms_code = #{gmsCode,jdbcType=VARCHAR},
+		phone_no = #{phoneNo,jdbcType=VARCHAR},
+		mail_addr = #{emailAddress,jdbcType=VARCHAR},
+		pass_wd = #{userPasswd,jdbcType=VARCHAR},
+		wrong_times = #{wrongTimes,jdbcType=INTEGER},
+		user_state = #{userState,jdbcType=INTEGER},
+		sys_lang = #{sysLang,jdbcType=VARCHAR},
+		data_sign =	#{dataSign,jdbcType=VARCHAR},
+	   	modify_time = #{modifyTime,jdbcType=TIMESTAMP}
+	    where user_id = #{userId,jdbcType=BIGINT}
+	</update>
+    <insert id="insert" parameterType="cn.hugo.us.repository.entity.UserInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into d_user_info (user_id,user_name,nick_name,user_sex,register_date,gms_code,phone_no,email_addr,pass_wd,wrong_times,user_state,sys_lang,data_sign,create_time,modify_time) values (
+        #{userId,jdbcType=BIGINT},
+        #{userName,jdbcType=VARCHAR},
+		#{nickName,jdbcType=VARCHAR},
+		#{userSex,jdbcType=CHAR},
+		#{registerDate,jdbcType=VARCHAR},
+		#{gmsCode,jdbcType=VARCHAR},
+		#{phoneNo,jdbcType=VARCHAR},
+		#{emailAddress,jdbcType=VARCHAR},
+		#{userPasswd,jdbcType=VARCHAR},
+		#{wrongTimes,jdbcType=INTEGER},
+		#{userState,jdbcType=INTEGER,javaType=cn.hugo.us.repository.enums.E_USER_STATE,typeHandler=cn.cskj.hugo.base.dao.com.EnumCommonHandler},
+		#{sysLang,jdbcType=VARCHAR},
+		#{dataSign,jdbcType=VARCHAR},
+        #{createTime,jdbcType=TIMESTAMP},
+        #{modifyTime,jdbcType=TIMESTAMP})
+    </insert>
+</mapper>
